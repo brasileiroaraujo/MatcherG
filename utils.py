@@ -21,6 +21,10 @@ def accuracy(pred, label):
     acc = torch.mean((pred == label).float())
     pred = pred.detach().cpu().numpy()
     label = label.detach().cpu().numpy()
+
+    print("pred: ", pred)
+    print("label: ", label)
+
     p = precision_score(label, pred)
     r = recall_score(label, pred)
     return p,r,acc
