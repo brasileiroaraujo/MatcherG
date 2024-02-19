@@ -89,27 +89,27 @@ def test(iter,logger,model,embed_model,crit,test_step=None,tf_logger=None,score_
     for j, batch in enumerate(iter):
         with torch.no_grad():
             edge,type = fetch_edge(batch)
-            print(edge)
-            print('--------')
-            print(type)
-            print('#####')
+            # print(edge)
+            # print('--------')
+            # print(type)
+            # print('#####')
             feature, A, label, masks = embed_model(batch)
-            print(feature)
-            print('========')
-            print(A)
-            print('===++===')
-            print(label)
-            print('===--===')
-            print(masks)
-            print('===**===')
+            # print(feature)
+            # print('========')
+            # print(A)
+            # print('===++===')
+            # print(label)
+            # print('===--===')
+            # print(masks)
+            # print('===**===')
             masks = masks.view(-1)
             label = label.view(-1)[masks == 1].long()
             pred = model(feature, A)
             pred = pred[masks == 1]
             loss = crit(pred, label)
             pred = F.softmax(pred, dim=1)
-            print(pred)
-            print('+++++++++++')
+            # print(pred)
+            # print('+++++++++++')
             p, r, acc = accuracy(pred, label)
             logger.info(
                 '{}\t[{:d}/{:d}]\tLoss {:.3f}\tAccuracy {:.3f}\tPrecison {:.3f}\tRecall {:.3f}'.format(prefix,j+1,len(iter),loss,acc,
@@ -124,6 +124,15 @@ def test(iter,logger,model,embed_model,crit,test_step=None,tf_logger=None,score_
     scores = np.asarray(scores)
     labels = np.asarray(labels)
     types = np.asarray(types)
+
+    print(edges)
+    print('========')
+    print(scores)
+    print('===++===')
+    print(labels)
+    print('===--===')
+    print(types)
+    print('===**===')
 
     if not isinstance(score_type,list):
         score_type = [score_type]
