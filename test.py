@@ -120,19 +120,19 @@ def test(iter,logger,model,embed_model,crit,test_step=None,tf_logger=None,score_
             labels += label.detach().cpu().numpy().tolist()
             types += type
 
+            print(edges)
+            print('========')
+            print(scores)
+            print('===++===')
+            print(labels)
+            print('===--===')
+            print(types)
+            print( '===**===')
+
     edges = np.asarray(edges)
     scores = np.asarray(scores)
     labels = np.asarray(labels)
     types = np.asarray(types)
-
-    print(edges)
-    print('========')
-    print(scores)
-    print('===++===')
-    print(labels)
-    print('===--===')
-    print(types)
-    print('===**===')
 
     if not isinstance(score_type,list):
         score_type = [score_type]
