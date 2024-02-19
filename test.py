@@ -100,10 +100,10 @@ def test(iter,logger,model,embed_model,crit,test_step=None,tf_logger=None,score_
             label = label.view(-1)[masks == 1].long()
             pred = model(feature, A)
             pred = pred[masks == 1]
-            print(pred)
-            print('+++++++++++')
             loss = crit(pred, label)
             pred = F.softmax(pred, dim=1)
+            print(pred)
+            print('+++++++++++')
             p, r, acc = accuracy(pred, label)
             logger.info(
                 '{}\t[{:d}/{:d}]\tLoss {:.3f}\tAccuracy {:.3f}\tPrecison {:.3f}\tRecall {:.3f}'.format(prefix,j+1,len(iter),loss,acc,
