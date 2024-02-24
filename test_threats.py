@@ -6,6 +6,8 @@ import torch.nn.functional as F
 import numpy as np
 import pandas as pd
 import argparse
+
+import data_sender
 from dataset import collate_fn, MergedMatchingDataset
 from torch.utils.data import DataLoader
 from EmbedModel import EmbedModel
@@ -87,30 +89,16 @@ def test(iter,logger,model,embed_model,crit,test_step=None,tf_logger=None,score_
     labels = []
     types = []
     #MUDAR AQUI PQ TEM QUE VIR NO MESMO FORMATO QUE VEM NO DITTO
-    for j, batch in enumerate(iter):
+    for batch in iter:
         with torch.no_grad():
             edge,type = fetch_edge(batch)
-            # print(edge)
-            # print('--------')
-            # print(type)
-            # print('#####')
             feature, A, label, masks = embed_model(batch)
-            # print(feature)
-            # print('========')
-            # print(A)
-            # print('===++===')
-            # print(label)
-            # print('===--===')
-            # print(masks)
-            # print('===**===')
             masks = masks.view(-1)
             label = label.view(-1)[masks == 1].long()
             pred = model(feature, A)
             pred = pred[masks == 1]
             loss = crit(pred, label)
             pred = F.softmax(pred, dim=1)
-            # print(pred)
-            # print('+++++++++++')
             p, r, acc = accuracy(pred, label)
             logger.info(
                 '{}\t[{:d}/{:d}]\tLoss {:.3f}\tAccuracy {:.3f}\tPrecison {:.3f}\tRecall {:.3f}'.format(prefix,j+1,len(iter),loss,acc,
@@ -159,6 +147,7 @@ if __name__ == '__main__':
 
     # Test args
     parser.add_argument('--batch_size', type=int, default=8)
+    parser.add_argument('--input_path', type=str)
     parser.add_argument('--tableA_path', type=str)
     parser.add_argument('--tableB_path', type=str)
     parser.add_argument('--train_path', type=str)
@@ -183,10 +172,11 @@ if __name__ == '__main__':
     useful_field_num = len(tableA.columns) - 1
     gcn_dim = 768
 
-    test_dataset = MergedMatchingDataset(args.test_path, tableA, tableB, other_path=[args.train_path, args.val_path])
-
-
-    test_iter = DataLoader(test_dataset, batch_size=args.batch_size, collate_fn=collate_fn, shuffle=False)
+    # test_dataset = MergedMatchingDataset(args.test_path, tableA, tableB, other_path=[args.train_path, args.val_path])
+    #
+    #
+    # test_iter = DataLoader(test_dataset, batch_size=args.batch_size, collate_fn=collate_fn, shuffle=False)
+    test_iter = data_sender.main(args.input_path)
 
     embedmodel = EmbedModel(useful_field_num=useful_field_num,device=args.gpu)
 
