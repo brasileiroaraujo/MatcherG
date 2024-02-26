@@ -202,7 +202,7 @@ if __name__ == '__main__':
     embedmodel = embedmodel.to(embedmodel.device)
     model = model.to(embedmodel.device)
 
-    test(iter=test_iter, logger=logger, model=model, embed_model=embedmodel, crit=criterion, score_type=test_type)
+    test(batch=test_iter, logger=logger, model=model, embed_model=embedmodel, crit=criterion, score_type=test_type)
 
 
 
