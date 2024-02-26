@@ -101,7 +101,7 @@ def test(batch,logger,model,embed_model,crit,test_step=None,tf_logger=None,score
         pred = F.softmax(pred, dim=1)
         p, r, acc = accuracy(pred, label)
         logger.info(
-            '{}\t[{:d}/{:d}]\tLoss {:.3f}\tAccuracy {:.3f}\tPrecison {:.3f}\tRecall {:.3f}'.format(prefix,j+1,len(iter),loss,acc,
+            '{}\t[{:d}/{:d}]\tLoss {:.3f}\tAccuracy {:.3f}\tPrecison {:.3f}\tRecall {:.3f}'.format(prefix,j+1,1,loss,acc,
                                                                                                                   p, r))
         assert pred.shape[0] == label.shape[0]
         scores += pred[:,1].detach().cpu().numpy().tolist()
