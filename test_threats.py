@@ -89,6 +89,7 @@ def test(batch,logger,model,embed_model,crit,test_step=None,tf_logger=None,score
     labels = []
     types = []
 
+    j=0
     with torch.no_grad():
         edge,type = fetch_edge(batch)
         feature, A, label, masks = embed_model(batch)
