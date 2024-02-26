@@ -41,12 +41,6 @@ def _read_csv(path):
     data = data.fillna(" ")
     return data
 
-# tableA_path = 'data/amazon_google/tableA.csv'
-# tableB_path = 'data/amazon_google/tableB.csv'
-# test_path = 'data/amazon_google/test.csv'
-# train_path = 'data/amazon_google/train.csv'
-# val_path = 'data/amazon_google/valid.csv'
-
 
 def main(input_path):
     ditto_input = input_path#'data/amazon_google/test_ditto.txt'
@@ -69,6 +63,14 @@ def main(input_path):
         list_candidates.append(output)
     return list_candidates
 
+
+
+# tableA_path = 'data/amazon_google/tableA.csv'
+# tableB_path = 'data/amazon_google/tableB.csv'
+# test_path = 'data/amazon_google/test.csv'
+# train_path = 'data/amazon_google/train.csv'
+# val_path = 'data/amazon_google/valid.csv'
+#
 # tableA = _read_csv(tableA_path)
 # tableB = _read_csv(tableB_path)
 # useful_field_num = len(tableA.columns) - 1
@@ -79,7 +81,12 @@ def main(input_path):
 # for j, batch in enumerate(test_iter):
 #     print("J", j)
 #     print("data: ", batch)
+#     for ex in batch:
+#         print('type: ', ex["type"])
 
 
 if __name__ == '__main__':
-    main('data/amazon_google/test_ditto.txt')
+    output = main('data/amazon_google/test_ditto.txt')
+    print('output: ', output)
+    for ex in output:
+        print('type: ', ex['type'])

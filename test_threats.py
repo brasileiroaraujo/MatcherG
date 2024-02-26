@@ -80,7 +80,7 @@ def calculate_f1(edges, scores, labels, types, score_type='left'):
     return p, r, f1, acc, score_dict
 
 
-def test(iter,logger,model,embed_model,crit,test_step=None,tf_logger=None,score_type='mean', prefix='Test'):
+def test(batch,logger,model,embed_model,crit,test_step=None,tf_logger=None,score_type='mean', prefix='Test'):
     model.eval()
     embed_model.eval()
 
@@ -88,35 +88,34 @@ def test(iter,logger,model,embed_model,crit,test_step=None,tf_logger=None,score_
     scores = []
     labels = []
     types = []
-    #MUDAR AQUI PQ TEM QUE VIR NO MESMO FORMATO QUE VEM NO DITTO
-    for batch in iter:
-        with torch.no_grad():
-            edge,type = fetch_edge(batch)
-            feature, A, label, masks = embed_model(batch)
-            masks = masks.view(-1)
-            label = label.view(-1)[masks == 1].long()
-            pred = model(feature, A)
-            pred = pred[masks == 1]
-            loss = crit(pred, label)
-            pred = F.softmax(pred, dim=1)
-            p, r, acc = accuracy(pred, label)
-            logger.info(
-                '{}\t[{:d}/{:d}]\tLoss {:.3f}\tAccuracy {:.3f}\tPrecison {:.3f}\tRecall {:.3f}'.format(prefix,j+1,len(iter),loss,acc,
-                                                                                                                      p, r))
-            assert pred.shape[0] == label.shape[0]
-            scores += pred[:,1].detach().cpu().numpy().tolist()
-            edges += edge
-            labels += label.detach().cpu().numpy().tolist()
-            types += type
 
-            print(edges)
-            print('========')
-            print(scores)
-            print('===++===')
-            print(labels)
-            print('===--===')
-            print(types)
-            print( '===**===')
+    with torch.no_grad():
+        edge,type = fetch_edge(batch)
+        feature, A, label, masks = embed_model(batch)
+        masks = masks.view(-1)
+        label = label.view(-1)[masks == 1].long()
+        pred = model(feature, A)
+        pred = pred[masks == 1]
+        loss = crit(pred, label)
+        pred = F.softmax(pred, dim=1)
+        p, r, acc = accuracy(pred, label)
+        logger.info(
+            '{}\t[{:d}/{:d}]\tLoss {:.3f}\tAccuracy {:.3f}\tPrecison {:.3f}\tRecall {:.3f}'.format(prefix,j+1,len(iter),loss,acc,
+                                                                                                                  p, r))
+        assert pred.shape[0] == label.shape[0]
+        scores += pred[:,1].detach().cpu().numpy().tolist()
+        edges += edge
+        labels += label.detach().cpu().numpy().tolist()
+        types += type
+
+        print(edges)
+        print('========')
+        print(scores)
+        print('===++===')
+        print(labels)
+        print('===--===')
+        print(types)
+        print( '===**===')
 
     edges = np.asarray(edges)
     scores = np.asarray(scores)
