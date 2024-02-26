@@ -88,6 +88,7 @@ def test(batch,logger,model,embed_model,crit,test_step=None,tf_logger=None,score
     scores = []
     labels = []
     types = []
+    prediction_values = []
 
     j=0
     with torch.no_grad():
@@ -108,6 +109,7 @@ def test(batch,logger,model,embed_model,crit,test_step=None,tf_logger=None,score
         edges += edge
         labels += label.detach().cpu().numpy().tolist()
         types += type
+        prediction_values += (torch.argmax(pred, dim=1).long()).detach().cpu().numpy().tolist()
 
         print(edges)
         print('========')
@@ -115,7 +117,7 @@ def test(batch,logger,model,embed_model,crit,test_step=None,tf_logger=None,score
         print('===++===')
         print(labels)
         print('===--===')
-        print(types)
+        print(prediction_values)
         print( '===**===')
 
     # edges = np.asarray(edges)
