@@ -99,43 +99,43 @@ def test(batch,logger,model,embed_model,crit,test_step=None,tf_logger=None,score
         pred = pred[masks == 1]
         loss = crit(pred, label)
         pred = F.softmax(pred, dim=1)
-        p, r, acc = accuracy(pred, label)
-        logger.info(
-            '{}\t[{:d}/{:d}]\tLoss {:.3f}\tAccuracy {:.3f}\tPrecison {:.3f}\tRecall {:.3f}'.format(prefix,j+1,1,loss,acc,
-                                                                                                                  p, r))
+        # p, r, acc = accuracy(pred, label)
+        # logger.info(
+        #     '{}\t[{:d}/{:d}]\tLoss {:.3f}\tAccuracy {:.3f}\tPrecison {:.3f}\tRecall {:.3f}'.format(prefix,j+1,1,loss,acc,
+        #                                                                                                           p, r))
         assert pred.shape[0] == label.shape[0]
         scores += pred[:,1].detach().cpu().numpy().tolist()
         edges += edge
         labels += label.detach().cpu().numpy().tolist()
         types += type
 
-        # print(edges)
-        # print('========')
-        # print(scores)
-        # print('===++===')
-        # print(labels)
-        # print('===--===')
-        # print(types)
-        # print( '===**===')
+        print(edges)
+        print('========')
+        print(scores)
+        print('===++===')
+        print(labels)
+        print('===--===')
+        print(types)
+        print( '===**===')
 
-    edges = np.asarray(edges)
-    scores = np.asarray(scores)
-    labels = np.asarray(labels)
-    types = np.asarray(types)
-
-    if not isinstance(score_type,list):
-        score_type = [score_type]
-    f1s = []
-    for t in score_type:
-        p, r, f1, acc, score_dict = calculate_f1(edges, scores, labels, types, score_type=t.lower())
-        f1s.append(f1)
-        logger.info('{}\t{}\tPrecison {:.3f}\tRecall {:.3f}\tF1-score {:.3f}\tAccuracy {:.3f}'.format(prefix, t, p, r, f1, acc))
-        if tf_logger:
-            tf_logger.add_scalar('{}/{}/Precision'.format(prefix, t), p, test_step)
-            tf_logger.add_scalar('{}/{}/Recall'.format(prefix, t), r, test_step)
-            tf_logger.add_scalar('{}/{}/f1Score'.format(prefix, t), f1, test_step)
-            tf_logger.add_scalar('{}/{}/Accuracy'.format(prefix, t), acc, test_step)
-    return f1s
+    # edges = np.asarray(edges)
+    # scores = np.asarray(scores)
+    # labels = np.asarray(labels)
+    # types = np.asarray(types)
+    #
+    # if not isinstance(score_type,list):
+    #     score_type = [score_type]
+    # f1s = []
+    # for t in score_type:
+    #     p, r, f1, acc, score_dict = calculate_f1(edges, scores, labels, types, score_type=t.lower())
+    #     f1s.append(f1)
+    #     logger.info('{}\t{}\tPrecison {:.3f}\tRecall {:.3f}\tF1-score {:.3f}\tAccuracy {:.3f}'.format(prefix, t, p, r, f1, acc))
+    #     if tf_logger:
+    #         tf_logger.add_scalar('{}/{}/Precision'.format(prefix, t), p, test_step)
+    #         tf_logger.add_scalar('{}/{}/Recall'.format(prefix, t), r, test_step)
+    #         tf_logger.add_scalar('{}/{}/f1Score'.format(prefix, t), f1, test_step)
+    #         tf_logger.add_scalar('{}/{}/Accuracy'.format(prefix, t), acc, test_step)
+    # return f1s
 
 
 if __name__ == '__main__':
