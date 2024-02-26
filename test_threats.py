@@ -108,14 +108,14 @@ def test(batch,logger,model,embed_model,crit,test_step=None,tf_logger=None,score
         labels += label.detach().cpu().numpy().tolist()
         types += type
 
-        print(edges)
-        print('========')
-        print(scores)
-        print('===++===')
-        print(labels)
-        print('===--===')
-        print(types)
-        print( '===**===')
+        # print(edges)
+        # print('========')
+        # print(scores)
+        # print('===++===')
+        # print(labels)
+        # print('===--===')
+        # print(types)
+        # print( '===**===')
 
     edges = np.asarray(edges)
     scores = np.asarray(scores)
