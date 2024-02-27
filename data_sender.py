@@ -42,6 +42,24 @@ def _read_csv(path):
     return data
 
 
+def put_in_gnem_input_form(candidates):
+    list_candidates = []
+
+    for i in candidates:
+        df, label = decompose_col_val.decompose_srt_to_full_df(i)
+        left_col = [i for i in df.columns.values if "left" in i]
+        right_col = [i for i in df.columns.values if "right" in i]
+
+        l_values = df[left_col].values.tolist()[0]#get all values
+        l_values.insert(0, -1)#add an id (simbolic) to follow the input
+        r_values = df[right_col].values.tolist()[0]#get all values
+        r_values.insert(0, -1)#add an id (simbolic) to follow the input
+
+        output = _make_example(left_val=l_values, right_val=r_values, label=label)
+        list_candidates.append(output)
+    return list_candidates
+
+
 def main(input_path):
     ditto_input = input_path#'data/amazon_google/test_ditto.txt'
     with open(ditto_input, encoding="utf8") as file:
