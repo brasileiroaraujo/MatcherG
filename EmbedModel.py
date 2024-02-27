@@ -13,12 +13,12 @@ class EmbedModel(nn.Module):
             device = [device]
         self.device = torch.device("cuda:{:d}".format(device[0]))
 
-        self.tokenizer = BertTokenizer.from_pretrained('bert-base-uncased', do_lower_case=True)
-        self.config = BertConfig.from_pretrained('bert-base-uncased')
+        self.tokenizer = BertTokenizer.from_pretrained('google-bert/bert-base-uncased', do_lower_case=True)
+        self.config = BertConfig.from_pretrained('google-bert/bert-base-uncased')
         if torch.cuda.is_available() and len(device) > 1:
-            self.model = nn.DataParallel(BertModel.from_pretrained('bert-base-uncased', config=self.config), device_ids=device)
+            self.model = nn.DataParallel(BertModel.from_pretrained('google-bert/bert-base-uncased', config=self.config), device_ids=device)
         else:
-            self.model = BertModel.from_pretrained('bert-base-uncased', config=self.config)
+            self.model = BertModel.from_pretrained('google-bert/bert-base-uncased', config=self.config)
         for param in self.model.parameters():
             param.requires_grad = True
         self.dim = 768
