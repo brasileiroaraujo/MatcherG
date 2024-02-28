@@ -56,8 +56,12 @@ def put_in_gnem_input_form(candidates):
         r_values = df[right_col].values.tolist()[0]#get all values
         r_values.insert(0, -1)#add an id (simbolic) to follow the input
 
+        print("l_v: ", l_values)
+        print("r_v: ", r_values)
+
         output = _make_example(left_val=l_values, right_val=r_values, label=label)
         list_candidates.append(output)
+    print(len(list_candidates))
     return list_candidates
 
 
