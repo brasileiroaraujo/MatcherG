@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from pytorch_transformers import BertTokenizer, BertConfig, BertModel
+from transformers import BertTokenizer, BertConfig, BertModel
 
 
 
