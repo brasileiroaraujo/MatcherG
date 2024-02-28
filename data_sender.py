@@ -46,7 +46,7 @@ def put_in_gnem_input_form(candidates):
     list_candidates = []
 
     for i in candidates.to_numpy():
-        i = i[0] #get value from the list
+        i = i[0] #get value from the list of candidates
         df, label = decompose_col_val.decompose_srt_to_full_df(i)
         left_col = [i for i in df.columns.values if "left" in i]
         right_col = [i for i in df.columns.values if "right" in i]

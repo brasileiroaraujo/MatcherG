@@ -45,9 +45,11 @@ def decompose_srt_to_df(row):
 def decompose_srt_to_full_df(row):
     att_value_map = {}
 
-    left = row.split('\t')[0]
-    right = row.split('\t')[1]
-    label = int(row.split('\t')[2])
+    sliced_row = row.split('\t')
+
+    left = sliced_row[0]
+    right = sliced_row[1]
+    label = int(sliced_row[2])
 
     att_l = [att_value.split('VAL') for att_value in left.split('COL')]
     add_row(att_l, att_value_map, 'left_')
