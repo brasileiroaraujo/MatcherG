@@ -202,7 +202,7 @@ if __name__ == '__main__':
         checkpoint = torch.load(args.checkpoint_path)
         if len(args.gpu) == 1:
             new_state_dict = {k.replace('module.', ''): v for k, v in checkpoint["embed_model"].items()}
-            embedmodel.load_state_dict(checkpoint)
+            embedmodel.load_state_dict(new_state_dict)
         else:
             embedmodel.load_state_dict(checkpoint["embed_model"])
         model.load_state_dict(checkpoint["model"])
