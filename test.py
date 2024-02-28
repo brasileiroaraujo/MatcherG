@@ -188,6 +188,7 @@ if __name__ == '__main__':
 
     test_iter = DataLoader(test_dataset, batch_size=args.batch_size, collate_fn=collate_fn, shuffle=False)
 
+    print("gpu: ", args.gpu)
     embedmodel = EmbedModel(useful_field_num=useful_field_num,device=args.gpu)
 
 
