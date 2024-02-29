@@ -59,7 +59,7 @@ def decompose_srt_to_full_df(row):
 
     df = pd.DataFrame.from_dict(att_value_map)
 
-    return df, label
+    return df, label, left, right
 
 def format_gnem_output_to_df(edge, score, label):
     att_value_map = {}

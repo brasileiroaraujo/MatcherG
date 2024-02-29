@@ -47,14 +47,14 @@ def put_in_gnem_input_form(candidates):
 
     for i in candidates.to_numpy():
         i = i[0] #get value from the list of candidates
-        df, label = decompose_col_val.decompose_srt_to_full_df(i)
+        df, label, left_id, right_id = decompose_col_val.decompose_srt_to_full_df(i)
         left_col = [i for i in df.columns.values if "left" in i]
         right_col = [i for i in df.columns.values if "right" in i]
 
         l_values = df[left_col].values.tolist()[0]#get all values
-        l_values.insert(0, -1)#add an id (simbolic) to follow the input
+        l_values.insert(0, left_id)#add an id (simbolic) to follow the input
         r_values = df[right_col].values.tolist()[0]#get all values
-        r_values.insert(0, -1)#add an id (simbolic) to follow the input
+        r_values.insert(0, right_id)#add an id (simbolic) to follow the input
 
         # print("l_v: ", l_values)
         # print("r_v: ", r_values)
