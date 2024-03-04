@@ -67,7 +67,7 @@ def format_gnem_output_to_df(edge, score, label):
     left = edge[0]
     right = edge[1]
 
-    print("l: " , left, "r: ", right, "sc: ", score, "lb: ", label)
+    #print("l: " , left, "r: ", right, "sc: ", score, "lb: ", label)
 
     att_l = [att_value.split('VAL') for att_value in left.split('COL')]
     add_row(att_l, att_value_map, 'left_')
